@@ -1,12 +1,12 @@
 package io.prediction.sentimentanalysis
 
-import io.prediction.controller.{Engine, EngineFactory}
+import io.prediction.controller.{Engine, EngineFactory, IdentityPreparator}
 
-object EngineFactory extends EngineFactory {
+object NlpEngineFactory extends EngineFactory {
   def apply() = {
     new Engine(
       classOf[DataSource],
-      classOf[Preparator],
+      classOf[IdentityPreparator[TrainingData]],
       Map("algo" -> classOf[Algorithm]),
       classOf[Serving])
   }

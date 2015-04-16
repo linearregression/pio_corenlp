@@ -1,7 +1,7 @@
 {
   "id": "default",
   "description": "Default settings",
-  "engineFactory": "io.prediction.sentimentanalysis.EngineFactory",
+  "engineFactory": "io.prediction.sentimentanalysis.NlpEngineFactory",
   "datasource": {
     "params" : {
     }

@@ -11,9 +11,10 @@ import org.apache.spark.SparkContext
 import scala.collection.JavaConversions._
 
 class Algorithm(val ap: AlgorithmParams)
-  extends P2LAlgorithm[PreparedData, Model, Query, PredictedResult] {
+  extends P2LAlgorithm[TrainingData, Model, Query, PredictedResult] {
 
-  def train(sc: SparkContext, data: PreparedData): Model = {
+  def train(sc: SparkContext, pd: TrainingData): Model = {
+    // Create a model from the pre-built data
     val pipelineProps = new Properties()
     val tokenizerProps = new Properties()
     pipelineProps.setProperty("sentiment.model", ap.sentimentModelPath)
@@ -30,9 +31,9 @@ class Algorithm(val ap: AlgorithmParams)
   }
 
   def predict(model: Model, query: Query): PredictedResult = {
+    // use CoreNLP library to predict sentiment of the sentence
     val annotation = model.tokenizer.process(query.sentence)
     model.pipeline.annotate(annotation)
-
     val sentence = annotation.get(classOf[CoreAnnotations.SentencesAnnotation])(0)
     val sentiment = sentence.get(classOf[SentimentCoreAnnotations.ClassName])
 
